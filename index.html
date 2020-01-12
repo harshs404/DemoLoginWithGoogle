@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ChatMet</title>
+    <link href="https://accounts.google.com/AddSession/signinchooser?hl=en&continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&flowName=GlifWebSignIn&flowEntry=AddSession" rel="stylesheet" type="text/css">
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script>
+        var googleUser = {};
+        var startApp = function() {
+            gapi.load('auth2', function() {
+                // Retrieve the singleton for the GoogleAuth library and set up the client.
+                auth2 = gapi.auth2.init({
+                    client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+                    cookiepolicy: 'single_host_origin',
+                    // Request scopes in addition to 'profile' and 'email'
+                    //scope: 'additional_scope'
+                });
+                attachSignin(document.getElementById('customBtn'));
+            });
+        };
+
+        function attachSignin(element) {
+            console.log(element.id);
+            auth2.attachClickHandler(element, {},
+                function(googleUser) {
+                    document.getElementById('name').innerText = "Signed in: " +
+                        googleUser.getBasicProfile().getName();
+                },
+                function(error) {
+                    alert(JSON.stringify(error, undefined, 2));
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="imgcont">
+        <img class="logo" src="images/logo.jpeg">
+    </div>
+    <center>
+        <!-- In the callback, you would hide the gSignInWrapper element on a
+      successful sign in -->
+        <div id="gSignInWrapper">
+            <div id="customBtn" class="customGPlusSignIn">
+                <span class="icon"></span>
+                <a href="https://accounts.google.com/AddSession/signinchooser?hl=en&continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&flowName=GlifWebSignIn&flowEntry=AddSession" <span class="buttonText">Sign In With Google</span>
+          </div></center>
+      </div>
+      <div id="name"></div>
+      <script>startApp();</script>
+</body>
+
+</html>
